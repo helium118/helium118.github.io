@@ -7,7 +7,52 @@
 		<script defer>
 			var exports = {};
 		</script>
-		<script defer src="index.js"></script>
+		<script defer>
+		"use strict";
+const getMeme = async () => {
+    let meme = await fetch(sites[getRandomIndex(sites.length)], {
+        method: 'GET',
+    });
+    let memeJson = await meme.json();
+    return memeJson;
+};
+let getRandomIndex = (length) => {
+    let index = Math.floor(Math.random() * length);
+    return index;
+};
+let displayTitle = async () => {
+    let meme = getMeme();
+    meme.then((result) => {
+        index = getRandomIndex(result.data.children.length);
+    });
+    let title = meme.then((result) => {
+        return result.data.children[index].data.title;
+    });
+    let element = document.getElementById('lol');
+    title.then((title) => {
+        if (element)
+            element.innerHTML = title;
+    });
+};
+let displayMeme = async () => {
+    let image = getMeme().then((result) => {
+        return result.data.children[index].data.url;
+    });
+    let element = document.getElementById('monke');
+    image.then((image) => {
+        if (element)
+            element.setAttribute('src', image);
+        console.log(image);
+    });
+};
+// --------------
+let sites = [
+    'https://www.reddit.com/r/memes.json',
+    'https://www.reddit.com/r/dankmemes.json',
+    'https://www.reddit.com/r/shitposting.json',
+];
+let index;
+</script>
 		<title>Document</title>
 	</head>
 	<body>
